@@ -9,6 +9,7 @@ const customerSchema = new Schema({
   },
   email: {
     type: String,
+    unique: true,
     required: true
   },
   phone: {
@@ -52,7 +53,7 @@ const customerSchema = new Schema({
   },
   updated_at: {
     type: Date,
-    default: null
+    default: Date.now
   },
   deleted_at: {
     type: Date,
