@@ -16,8 +16,6 @@ app.use(cors());
 app.use('/api', customerRoutes);
 
 
-
-
 // Database connection and configuration
 mongoose.connect(process.env.MONGODB_URI , {
   useNewUrlParser: true,
