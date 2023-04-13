@@ -10,6 +10,23 @@ const bcrypt = require('bcrypt');
 //     .catch((err) => res.status(400).json({ message: 'Error to create customers', error: err.message }));
 // }
 
+
+async function loginCustomer (req, res){
+  const body = req.body;
+  const customer = await CustomerSchema.findOne({ email: body.email });
+  if (customer) {
+    const validPassword = await bcrypt.compare(body.password, customer.password);
+    if (validPassword) {
+      res.status(201).json(customer);
+    } else {
+      res.status(400).json({ error: "Invalid Password" });
+    }
+  } else {
+    res.status(401).json({ error: "customer does not exist" });
+  }
+}
+
+
 async function createCustomer (req, res){
   const body = req.body;
   if (!(body.email && body.password)) {
@@ -63,13 +80,11 @@ async function deleteCustomerById(req, res) {
     .catch((err) => res.status(400).json({ message: 'Error to delete customers', error: err.message }));
 }
 
-
-
-
 module.exports = {
   createCustomer,
   getAllCustomers,
   getCustomerById,
   updateCustomerById,
-  deleteCustomerById
+  deleteCustomerById,
+  loginCustomer
 };
