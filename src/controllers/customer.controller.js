@@ -1,21 +1,37 @@
 const CustomerSchema = require('../models/customer.model');
+const bcrypt = require('bcrypt');
 
-async function createCustomer (req, res) {
-  const customer = await CustomerSchema(req.body);
+
+// async function createCustomer (req, res) {
+//   const customer = await CustomerSchema(req.body);
+//   customer
+//     .save()
+//     .then((customer) => res.status(201).json(customer))
+//     .catch((err) => res.status(400).json({ message: 'Error to create customers', error: err.message }));
+// }
+
+async function createCustomer (req, res){
+  const body = req.body;
+  if (!(body.email && body.password)) {
+    return res.status(400).send({ error: "Data not formatted properly" });
+  }
+  const customer = new CustomerSchema(body);
+  const salt = await bcrypt.genSalt(10);
+  customer.password = await bcrypt.hash(customer.password, salt);
   customer
-    .save()
-    .then((customer) => res.status(201).json(customer))
-    .catch((err) => res.status(400).json({ message: 'Error to create customers', error: err.message }));
+  .save()
+  .then((customer) => res.status(201).json(customer))
+  .catch((err) => res.status(400).json({ message: 'Error to create customers', error: err.message }));
 }
 
-async function getAllCustomers (req, res) {
+async function getAllCustomers(req, res) {
   await CustomerSchema
     .find()
     .then((customer) => res.status(200).json(customer))
     .catch((err) => res.status(404).json({ message: 'No customers found', error: err.message }));
 }
 
-async function getCustomerById (req, res) {
+async function getCustomerById(req, res) {
   const { id } = req.params;
   await CustomerSchema
     .findById(id)
@@ -23,7 +39,7 @@ async function getCustomerById (req, res) {
     .catch((err) => res.status(404).json({ message: 'No customer found', error: err.message }));
 }
 
-async function updateCustomerById (req, res) {
+async function updateCustomerById(req, res) {
   const { id } = req.params;
   const { name, email, phone, password, reward_points, addresses, payment_methods, coordinates } = req.body;
   await CustomerSchema
@@ -39,13 +55,16 @@ async function updateCustomerById (req, res) {
     .catch((err) => res.status(400).json({ message: 'Error to update customers', error: err.message }));
 }
 
-async function deleteCustomerById (req, res) {
+async function deleteCustomerById(req, res) {
   const { id } = req.params;
   await CustomerSchema
     .findOneAndDelete({ _id: id })
     .then((customer) => res.status(201).json(customer))
     .catch((err) => res.status(400).json({ message: 'Error to delete customers', error: err.message }));
 }
+
+
+
 
 module.exports = {
   createCustomer,
