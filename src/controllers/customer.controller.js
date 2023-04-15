@@ -1,7 +1,6 @@
 const CustomerSchema = require('../models/customer.model');
 const bcrypt = require('bcrypt');
 
-
 // async function createCustomer (req, res) {
 //   const customer = await CustomerSchema(req.body);
 //   customer
