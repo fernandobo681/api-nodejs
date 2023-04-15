@@ -18,10 +18,10 @@ async function loginCustomer (req, res){
     if (validPassword) {
       res.status(201).json(customer);
     } else {
-      res.status(400).json({ error: "Invalid Password" });
+      res.status(400).json({ error: "Invalid credentials" });
     }
   } else {
-    res.status(401).json({ error: "customer does not exist" });
+    res.status(401).json({ error: "Customer does not exist" });
   }
 }
 
