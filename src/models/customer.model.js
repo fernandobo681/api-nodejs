@@ -49,7 +49,7 @@ const customerSchema = new Schema({
     long: Number
   }],
   vehicles: [{
-    brand: String,
+    make: String,
     model: String,
     year: Number,
     description: String
