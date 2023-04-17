@@ -18,7 +18,7 @@ async function loginCustomer(req, res) {
   if (customer) {
     const validPassword = await bcrypt.compare(body.password, customer.password);
     if (validPassword) {
-      const token = jwt.sign({ email: customer.email }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.JWT_EXPIRES_IN});
+      const token = jwt.sign({ email: customer.email }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.JWT_EXPIRES_IN });
       res.status(201).json({ success: true, message: 'Customer loged successfully', token: 'Bearer ' + token, data: customer });
     } else {
       res.status(400).json({ success: false, message: "Invalid credentials" });
@@ -60,16 +60,20 @@ async function getCustomerById(req, res) {
 
 async function updateCustomerById(req, res) {
   const { id } = req.params;
-  const { name, email, phone, reward_points, addresses, payment_methods, coordinates } = req.body;
+  const { name, email, phone, reward_points, addresses, payment_methods, coordinates, vehicles } = req.body;
   await CustomerSchema
     .findOneAndUpdate({ _id: id }, {
-      $set: { name, email, phone, reward_points, addresses, payment_methods, coordinates }
+      $set: { name, email, phone, reward_points, addresses, payment_methods, coordinates, vehicles }
     })
-    .then(() => {
-      CustomerSchema
-        .findById(id)
-        .then((customer) => res.status(201).json({ success: true, message: 'Customer updated successfully', data: customer }))
-        .catch((err) => res.status(404).json({ success: false, message: 'No customer found: ' + err.message }));
+    .then((customerUpdated) => {
+      if (customerUpdated) {
+        CustomerSchema
+          .findById(id)
+          .then((customer) => res.status(201).json({ success: true, message: 'Customer updated successfully', data: customer }))
+          .catch((err) => res.status(404).json({ success: false, message: 'No customer found: ' + err.message }));
+      } else {
+        res.status(404).json({ success: false, message: 'No customer found' });
+      }
     })
     .catch((err) => res.status(400).json({ success: false, message: 'Error to update customers: ' + err.message }));
 }

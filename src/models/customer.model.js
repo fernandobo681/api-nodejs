@@ -48,6 +48,12 @@ const customerSchema = new Schema({
     lat: Number,
     long: Number
   }],
+  vehicles: [{
+    brand: String,
+    model: String,
+    year: Number,
+    description: String
+  }],
   created_at: {
     type: Date,
     default: Date.now
