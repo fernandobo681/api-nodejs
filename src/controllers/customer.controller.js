@@ -48,7 +48,7 @@ async function getAllCustomers(req, res) {
     .find()
     .then((customer) =>  {
 
-      if(customer) { 
+      if(customer.length > 0) { 
         res.status(200).json({ success: true, message: 'Get all customers successfully', data: customer })
       } else {
         res.status(404).json({ success: false, message: 'No customers found: ' + err.message });
@@ -63,11 +63,7 @@ async function getCustomerById(req, res) {
   await CustomerSchema
     .findById(id)
     .then((customer) => { 
-      if(customer) { 
         res.status(200).json({ success: true, message: 'Get customer by id successfully', data: customer })
-      } else  {
-        res.status(404).json({ success: false, message: 'No customer found:' + err.message });
-      }
     }
     )
     .catch((err) => res.status(404).json({ success: false, message: 'No customer found:' + err.message }));
