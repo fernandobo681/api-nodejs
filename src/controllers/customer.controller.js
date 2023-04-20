@@ -46,7 +46,15 @@ async function createCustomer(req, res) {
 async function getAllCustomers(req, res) {
   await CustomerSchema
     .find()
-    .then((customer) => res.status(200).json({ success: true, message: 'Get all customers successfully', data: customer }))
+    .then((customer) =>  {
+
+      if(customer) { 
+        res.status(200).json({ success: true, message: 'Get all customers successfully', data: customer })
+      } else {
+        res.status(404).json({ success: false, message: 'No customers found: ' + err.message });
+      }
+    }
+    )
     .catch((err) => res.status(404).json({ success: false, message: 'No customers found: ' + err.message }));
 }
 
@@ -54,8 +62,15 @@ async function getCustomerById(req, res) {
   const { id } = req.params;
   await CustomerSchema
     .findById(id)
-    .then((customer) => res.status(200).json({ success: true, message: 'Get customer by id successfully', data: customer }))
-    .catch((err) => res.status(404).json({ success: true, message: 'No customer found:' + err.message }));
+    .then((customer) => { 
+      if(customer) { 
+        res.status(200).json({ success: true, message: 'Get customer by id successfully', data: customer })
+      } else  {
+        res.status(404).json({ success: false, message: 'No customer found:' + err.message });
+      }
+    }
+    )
+    .catch((err) => res.status(404).json({ success: false, message: 'No customer found:' + err.message }));
 }
 
 async function updateCustomerById(req, res) {
