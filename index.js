@@ -16,6 +16,6 @@ app.use(cors());
 connectToDB();
 
 // import routes
-app.use('/api', customerRoutes);
+app.use('/api/customers', customerRoutes);
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
