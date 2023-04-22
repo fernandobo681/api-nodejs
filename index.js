@@ -6,6 +6,7 @@ const cors = require('cors');
 const port = process.env.PORT || 3001;
 const customerRoutes = require('./src/routes/customer.route');
 const bannernRoutes = require('./src/routes/banner.route');
+const rewardRoutes = require('./src/routes/reward.route');
 const connectToDB = require('./src/config/db');
 
 // Middlewares
@@ -19,5 +20,6 @@ connectToDB();
 // import routes
 app.use('/api/customers', customerRoutes);
 app.use('/api/banners', bannernRoutes);
+app.use('/api/rewards', rewardRoutes);
 
 app.listen(port, () => console.log(`Server started on port ${port}`));

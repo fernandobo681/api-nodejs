@@ -1,5 +1,4 @@
 const BannerSchema = require('../models/banner.model');
-require('dotenv').config();
 
 async function createBanner (req, res) {
   const banner = await BannerSchema(req.body);
@@ -9,7 +8,7 @@ async function createBanner (req, res) {
   .catch((err) => res.status(400).json({ success: false, message: 'Error to create banners: ' + err.message }));
 }
 
-async function getAllConfigurations(req, res) {
+async function getAllBanners(req, res) {
   await BannerSchema
     .find()
     .then((configuration) =>  {
@@ -66,7 +65,7 @@ async function deletebannerById(req, res) {
 }
 
 module.exports = {
-    getAllConfigurations,
+    getAllBanners,
     createBanner,
     getBannerById,
     updatebannerById,
