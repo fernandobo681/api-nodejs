@@ -18,10 +18,18 @@ app.use(cors());
 // MongoDB connection and configuration
 connectToDB();
 
+// import views
+app.set("view engine", "pug");
+app.set('views', './src/views');
+
 // import routes
 app.use('/api/customers', customerRoutes);
 app.use('/api/banners', bannernRoutes);
 app.use('/api/rewards', rewardRoutes);
 app.use('/api/configurations', configurationRoutes);
+
+app.route("/").get((req, res) => {
+  res.render("index");
+});
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
