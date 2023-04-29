@@ -10,7 +10,7 @@ const bannerSchema = new Schema({
   description: {
     type: String,
     required: true
-  }, 
+  },
   start_date: {
     type: Date,
     default: null

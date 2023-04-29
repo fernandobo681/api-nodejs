@@ -8,6 +8,7 @@ const customerRoutes = require('./src/routes/customer.route');
 const bannernRoutes = require('./src/routes/banner.route');
 const rewardRoutes = require('./src/routes/reward.route');
 const configurationRoutes = require('./src/routes/configuration.route');
+const productRoutes = require('./src/routes/product.route');
 const connectToDB = require('./src/config/db');
 
 // Middlewares
@@ -27,6 +28,7 @@ app.use('/api/customers', customerRoutes);
 app.use('/api/banners', bannernRoutes);
 app.use('/api/rewards', rewardRoutes);
 app.use('/api/configurations', configurationRoutes);
+app.use('/api/products', productRoutes);
 
 app.route("/").get((req, res) => {
   res.render("index");
