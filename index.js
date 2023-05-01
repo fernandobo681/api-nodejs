@@ -10,6 +10,8 @@ const rewardRoutes = require('./src/routes/reward.route');
 const configurationRoutes = require('./src/routes/configuration.route');
 const productRoutes = require('./src/routes/product.route');
 const serviceRoutes = require('./src/routes/service.route');
+const couponRoutes = require('./src/routes/coupon.route');
+const couponRedeemedRoutes = require('./src/routes/couponRedeemed.route');
 const connectToDB = require('./src/config/db');
 
 // Middlewares
@@ -29,6 +31,8 @@ app.use('/api/rewards', rewardRoutes);
 app.use('/api/configurations', configurationRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/services', serviceRoutes);
+app.use('/api/coupons', couponRoutes);
+app.use('/api/couponsRedeemed', couponRedeemedRoutes);
 
 
 // import views
