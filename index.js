@@ -9,6 +9,7 @@ const bannernRoutes = require('./src/routes/banner.route');
 const rewardRoutes = require('./src/routes/reward.route');
 const configurationRoutes = require('./src/routes/configuration.route');
 const productRoutes = require('./src/routes/product.route');
+const serviceRoutes = require('./src/routes/service.route');
 const connectToDB = require('./src/config/db');
 
 // Middlewares
@@ -19,9 +20,7 @@ app.use(cors());
 // MongoDB connection and configuration
 connectToDB();
 
-// import views
-app.set("view engine", "pug");
-app.set('views', './src/views');
+
 
 // import routes
 app.use('/api/customers', customerRoutes);
@@ -29,7 +28,12 @@ app.use('/api/banners', bannernRoutes);
 app.use('/api/rewards', rewardRoutes);
 app.use('/api/configurations', configurationRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/services', serviceRoutes);
 
+
+// import views
+app.set("view engine", "pug");
+app.set('views', './src/views');
 app.route("/").get((req, res) => {
   res.render("index");
 });
