@@ -4,14 +4,15 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const port = process.env.PORT || 3001;
-const customerRoutes = require('./src/routes/customer.route');
-const bannernRoutes = require('./src/routes/banner.route');
-const rewardRoutes = require('./src/routes/reward.route');
-const configurationRoutes = require('./src/routes/configuration.route');
-const productRoutes = require('./src/routes/product.route');
-const serviceRoutes = require('./src/routes/service.route');
-const couponRoutes = require('./src/routes/coupon.route');
-const couponRedeemedRoutes = require('./src/routes/couponRedeemed.route');
+const customerRoute = require('./src/routes/customer.route');
+const bannernRoute = require('./src/routes/banner.route');
+const rewardRoute = require('./src/routes/reward.route');
+const configurationRoute = require('./src/routes/configuration.route');
+const productRoute = require('./src/routes/product.route');
+const serviceRoute = require('./src/routes/service.route');
+const couponRoute = require('./src/routes/coupon.route');
+const couponRedeemedRoute = require('./src/routes/couponRedeemed.route');
+const saleRoute = require('./src/routes/sale.route');
 const connectToDB = require('./src/config/db');
 
 // Middlewares
@@ -25,15 +26,15 @@ connectToDB();
 
 
 // import routes
-app.use('/api/customers', customerRoutes);
-app.use('/api/banners', bannernRoutes);
-app.use('/api/rewards', rewardRoutes);
-app.use('/api/configurations', configurationRoutes);
-app.use('/api/products', productRoutes);
-app.use('/api/services', serviceRoutes);
-app.use('/api/coupons', couponRoutes);
-app.use('/api/couponsRedeemed', couponRedeemedRoutes);
-
+app.use('/api/customers', customerRoute);
+app.use('/api/banners', bannernRoute);
+app.use('/api/rewards', rewardRoute);
+app.use('/api/configurations', configurationRoute);
+app.use('/api/products', productRoute);
+app.use('/api/services', serviceRoute);
+app.use('/api/coupons', couponRoute);
+app.use('/api/couponsRedeemed', couponRedeemedRoute);
+app.use('/api/sales', saleRoute);
 
 // import views
 app.set("view engine", "pug");
