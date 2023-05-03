@@ -16,6 +16,7 @@ const saleRoute = require('./src/routes/sale.route');
 const eventTrackerRoute = require('./src/routes/eventTracker.route');
 const paymentLogStripeRoute = require('./src/routes/paymentLogStripe.route');
 const scheduleAppointmentRoute = require('./src/routes/scheduleAppointment.route');
+const unitRoute = require('./src/routes/unit.route');
 const connectToDB = require('./src/config/db');
 
 // Middlewares
@@ -41,6 +42,7 @@ app.use('/api/sales', saleRoute);
 app.use('/api/eventTrackers', eventTrackerRoute);
 app.use('/api/paymentsLogStripe', paymentLogStripeRoute);
 app.use('/api/scheduleAppointments', scheduleAppointmentRoute);
+app.use('/api/units', unitRoute);
 
 // import views
 app.set("view engine", "pug");
