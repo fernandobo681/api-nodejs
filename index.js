@@ -15,6 +15,7 @@ const couponRedeemedRoute = require('./src/routes/couponRedeemed.route');
 const saleRoute = require('./src/routes/sale.route');
 const eventTrackerRoute = require('./src/routes/eventTracker.route');
 const paymentLogStripeRoute = require('./src/routes/paymentLogStripe.route');
+const scheduleAppointmentRoute = require('./src/routes/scheduleAppointment.route');
 const connectToDB = require('./src/config/db');
 
 // Middlewares
@@ -39,6 +40,7 @@ app.use('/api/couponsRedeemed', couponRedeemedRoute);
 app.use('/api/sales', saleRoute);
 app.use('/api/eventTrackers', eventTrackerRoute);
 app.use('/api/paymentsLogStripe', paymentLogStripeRoute);
+app.use('/api/scheduleAppointments', scheduleAppointmentRoute);
 
 // import views
 app.set("view engine", "pug");
