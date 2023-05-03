@@ -13,6 +13,7 @@ const serviceRoute = require('./src/routes/service.route');
 const couponRoute = require('./src/routes/coupon.route');
 const couponRedeemedRoute = require('./src/routes/couponRedeemed.route');
 const saleRoute = require('./src/routes/sale.route');
+const eventTrackerRoute = require('./src/routes/eventTracker.route');
 const connectToDB = require('./src/config/db');
 
 // Middlewares
@@ -35,6 +36,7 @@ app.use('/api/services', serviceRoute);
 app.use('/api/coupons', couponRoute);
 app.use('/api/couponsRedeemed', couponRedeemedRoute);
 app.use('/api/sales', saleRoute);
+app.use('/api/eventTrackers', eventTrackerRoute);
 
 // import views
 app.set("view engine", "pug");
