@@ -22,6 +22,8 @@ const scheduleAppointmentRoute = require('./src/routes/scheduleAppointment.route
 const unitRoute = require('./src/routes/unit.route');
 const branchesRoute = require('./src/routes/branches.route');
 const collaboratorRoute = require('./src/routes/collaborator.route');
+const appointmentsRoute = require('./src/routes/appointment.route');
+
 
 // Middlewares
 app.use(bodyParser.json());
@@ -47,6 +49,7 @@ app.use('/api/scheduleAppointments', scheduleAppointmentRoute);
 app.use('/api/branches', branchesRoute);
 app.use('/api/units', unitRoute);
 app.use('/api/collaborators', collaboratorRoute);
+app.use('/api/appointments', appointmentsRoute);
 
 // use views
 app.set("view engine", "pug");
