@@ -4,6 +4,9 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const port = process.env.PORT || 3001;
+const connectToDB = require('./src/config/db');
+
+// Import Routes
 const customerRoute = require('./src/routes/customer.route');
 const bannernRoute = require('./src/routes/banner.route');
 const rewardRoute = require('./src/routes/reward.route');
@@ -18,7 +21,7 @@ const paymentLogStripeRoute = require('./src/routes/paymentLogStripe.route');
 const scheduleAppointmentRoute = require('./src/routes/scheduleAppointment.route');
 const unitRoute = require('./src/routes/unit.route');
 const branchesRoute = require('./src/routes/branches.route');
-const connectToDB = require('./src/config/db');
+const collaboratorRoute = require('./src/routes/collaborator.route');
 
 // Middlewares
 app.use(bodyParser.json());
@@ -28,9 +31,7 @@ app.use(cors());
 // MongoDB connection and configuration
 connectToDB();
 
-
-
-// import routes
+// use routes
 app.use('/api/customers', customerRoute);
 app.use('/api/banners', bannernRoute);
 app.use('/api/rewards', rewardRoute);
@@ -44,8 +45,10 @@ app.use('/api/eventTrackers', eventTrackerRoute);
 app.use('/api/paymentsLogStripe', paymentLogStripeRoute);
 app.use('/api/scheduleAppointments', scheduleAppointmentRoute);
 app.use('/api/branches', branchesRoute);
+app.use('/api/units', unitRoute);
+app.use('/api/collaborators', collaboratorRoute);
 
-// import views
+// use views
 app.set("view engine", "pug");
 app.set('views', './src/views');
 app.route("/").get((req, res) => {
