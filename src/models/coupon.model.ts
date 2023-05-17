@@ -1,7 +1,16 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+import { Schema, model } from 'mongoose';
 
-const couponSchema = new Schema({
+export interface Coupon {
+    coupon_code: string;
+    discount_rate: number;
+    discount_type: string;
+    expiration_date: Date;
+    created_at: Date;
+    updated_at: Date;
+    deleted_at: Date;
+}
+
+const couponSchema = new Schema<Coupon>({
     coupon_code: {
         type: String,
         unique: true,
@@ -31,4 +40,4 @@ const couponSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('Coupon', couponSchema);
+export default model<Coupon>('Coupon', couponSchema);

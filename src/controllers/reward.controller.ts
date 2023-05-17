@@ -1,7 +1,7 @@
 import RewardSchema from '../models/reward.model';
 
 export async function createReward (req, res) {
-  const reward = await RewardSchema(req.body);
+  const reward = await new RewardSchema(req.body);
   reward
   .save()
   .then((reward) => res.status(201).json({ success: true, message: 'Reward created successfully', data: reward }))

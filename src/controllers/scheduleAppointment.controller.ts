@@ -1,7 +1,7 @@
 import ScheduleAppointmentSchema from '../models/scheduleAppointment.model';
 
 export async function createScheduleAppointment (req, res) {
-  const scheduleAppointment = await ScheduleAppointmentSchema(req.body);
+  const scheduleAppointment = await new ScheduleAppointmentSchema(req.body);
   scheduleAppointment
   .save()
   .then((scheduleAppointment) => res.status(201).json({ success: true, message: 'ScheduleAppointment created successfully', data: scheduleAppointment }))

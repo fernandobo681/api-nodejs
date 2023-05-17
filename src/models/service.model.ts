@@ -1,20 +1,32 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+import { Schema, model } from 'mongoose';
 
-const serviceSchema = new Schema({
+export interface Service {
+  name: string;
+  description: string;
+  cost: number;
+  discount_rate: number;
+  duration: Number;
+  img: string;
+  unit_id: string;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date;
+}
+
+const serviceSchema = new Schema <Service> ({
   name: {
     type: String,
     required: true
   },
   description: {
     type: String
-  }, 
+  },
   cost: {
     type: Number
-  }, 
+  },
   discount_rate: {
     type: Number
-  }, 
+  },
   duration: {
     type: Number
   },
@@ -35,4 +47,4 @@ const serviceSchema = new Schema({
   }
 });
 
-module.exports = mongoose.model('Service', serviceSchema);
+export default model<Service>('Service', serviceSchema);

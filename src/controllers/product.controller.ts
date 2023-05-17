@@ -1,7 +1,7 @@
 import ProductSchema from '../models/product.model';
 
 export async function createProduct (req, res) {
-  const product = await ProductSchema(req.body);
+  const product = await new ProductSchema(req.body);
   product
   .save()
   .then((product) => res.status(201).json({ success: true, message: 'Product created successfully', data: product }))

@@ -1,7 +1,7 @@
 import ConfigurationSchema from '../models/configuration.model';
 
 export async function createConfiguration (req, res) {
-  const configuration = await ConfigurationSchema(req.body);
+  const configuration = await new ConfigurationSchema(req.body);
   configuration
   .save()
   .then((configuration) => res.status(201).json({ success: true, message: 'Configuration created successfully', data: configuration }))

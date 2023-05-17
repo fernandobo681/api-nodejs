@@ -1,7 +1,16 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+import { Schema, model } from 'mongoose';
 
-const scheduleAppointmentSchema = new Schema({
+export interface ScheduleAppointment {
+    service: any;
+    dateTimeAppointment: Date;
+    customer: any;
+    unit_id: string;
+    created_at: Date;
+    updated_at: Date;
+    deleted_at: Date;
+}
+
+const scheduleAppointmentSchema = new Schema<ScheduleAppointment>({
     service: [{
         id: String,
         name: String
@@ -31,4 +40,4 @@ const scheduleAppointmentSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('ScheduleAppointment', scheduleAppointmentSchema);
+export default model<ScheduleAppointment>('ScheduleAppointment', scheduleAppointmentSchema);

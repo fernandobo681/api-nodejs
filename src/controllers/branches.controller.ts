@@ -1,7 +1,7 @@
 import BranchesSchema from '../models/branches.model';
 
 export async function createBranches (req, res) {
-  const branches = await BranchesSchema(req.body);
+  const branches = await new BranchesSchema(req.body);
   branches
   .save()
   .then((branches) => res.status(201).json({ success: true, message: 'Branches created successfully', data: branches }))

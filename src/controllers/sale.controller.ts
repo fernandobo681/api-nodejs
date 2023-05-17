@@ -1,7 +1,7 @@
 import SaleSchema from '../models/sale.model';
 
 export async function createSale (req, res) {
-  const sale = await SaleSchema(req.body);
+  const sale = await new SaleSchema(req.body);
   sale
   .save()
   .then((sale) => res.status(201).json({ success: true, message: 'Sale created successfully', data: sale }))

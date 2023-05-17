@@ -1,5 +1,19 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+import { Schema, model } from 'mongoose';
+
+export interface Unit {
+    model: string;
+    brand: string;
+    year: number;
+    fuel_type: string;
+    estimated_price: Number;
+    tuition: string;
+    branch_id: string;
+    colaborators: any;
+    expenses: any;
+    created_at: Date;
+    updated_at: Date;
+    deleted_at: Date;
+  }
 
 const unitSchema = new Schema({
     model: {
@@ -45,4 +59,4 @@ const unitSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('Unit', unitSchema);
+export default model<Unit>('Unit', unitSchema);

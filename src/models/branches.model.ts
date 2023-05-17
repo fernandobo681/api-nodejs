@@ -1,7 +1,19 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+import { Schema, model } from 'mongoose';
 
-const branchesSchema = new Schema({
+export interface Branches {
+    name: string;
+    email: string;
+    phone: number;
+    addresses: any;
+    payment_methods: any;
+    coordinates: any;
+    coupons: any;
+    created_at: Date;
+    updated_at: Date;
+    deleted_at: Date;
+}
+
+const branchesSchema = new Schema<Branches>({
     name: {
         type: String
     },
@@ -52,4 +64,4 @@ const branchesSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('Branches', branchesSchema);
+export default model<Branches>('Branches', branchesSchema);

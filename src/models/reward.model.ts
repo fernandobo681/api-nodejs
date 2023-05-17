@@ -1,7 +1,16 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+import { Schema, model } from 'mongoose';
 
-const rewardSchema = new Schema({
+export interface Reward {
+  name: string;
+  description: string;
+  points: number;
+  expiration_date: Date;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date;
+}
+
+const rewardSchema = new Schema<Reward>({
   name: {
     type: String,
     required: true
@@ -30,4 +39,4 @@ const rewardSchema = new Schema({
   }
 });
 
-module.exports = mongoose.model('Reward', rewardSchema);
+export default model<Reward>('Reward', rewardSchema);

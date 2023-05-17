@@ -1,7 +1,17 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+import { Schema, model } from 'mongoose';
 
-const configurationSchema = new Schema({
+export interface Configuration {
+  company_name: string;
+  rfc: string;
+  phone: string;
+  email: string;
+  schedule: any;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date;
+}
+
+const configurationSchema = new Schema<Configuration>({
   company_name: {
     type: String,
     required: true
@@ -39,4 +49,4 @@ const configurationSchema = new Schema({
   }
 });
 
-module.exports = mongoose.model('Configuration', configurationSchema);
+export default model<Configuration>('Configuration', configurationSchema);

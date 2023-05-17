@@ -1,7 +1,16 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+import { Schema, model } from 'mongoose';
 
-const paymentLogStripeSchema = new Schema({
+export interface PaymentLogStrip {
+    amount: number;
+    currency: string;
+    sale_id: string;
+    customer: any;
+    created_at: Date;
+    updated_at: Date;
+    deleted_at: Date;
+}
+
+const paymentLogStripeSchema = new Schema<PaymentLogStrip>({
     amount: {
         type: Number
     },
@@ -29,4 +38,4 @@ const paymentLogStripeSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('PaymentLogStrip', paymentLogStripeSchema);
+export default model<PaymentLogStrip>('PaymentLogStrip', paymentLogStripeSchema);

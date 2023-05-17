@@ -1,7 +1,7 @@
 import EventTrackerSchema from '../models/eventTracker.model';
 
 export async function createEventTracker (req, res) {
-  const eventTracker = await EventTrackerSchema(req.body);
+  const eventTracker = await new EventTrackerSchema(req.body);
   eventTracker
   .save()
   .then((eventTracker) => res.status(201).json({ success: true, message: 'EventTracker created successfully', data: eventTracker }))

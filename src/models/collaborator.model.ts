@@ -1,7 +1,22 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+import { Schema, model } from 'mongoose';
 
-const collaboratorSchema = new Schema({
+export interface Collaborator {
+    name: string;
+    email: string;
+    phone: string;
+    branch: string;
+    password: string;
+    addresses: any;
+    payment_methods: any;
+    coordinates: any;
+    unit_id: string;
+    rol: string;
+    created_at: Date;
+    updated_at: Date;
+    deleted_at: Date;
+}
+
+const collaboratorSchema = new Schema<Collaborator>({
     name: {
         type: String,
         required: true
@@ -67,4 +82,5 @@ const collaboratorSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('Collaborator', collaboratorSchema);
+
+export default model<Collaborator>('Collaborator', collaboratorSchema);

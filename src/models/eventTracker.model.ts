@@ -1,7 +1,16 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+import { Schema, model } from 'mongoose';
 
-const eventTrackerchema = new Schema({
+export interface EventTracker {
+    event_name: string;
+    module: string;
+    notes: string;
+    user: any;
+    created_at: Date;
+    updated_at: Date;
+    deleted_at: Date;
+}
+
+const eventTrackerchema = new Schema<EventTracker>({
     event_name: {
         type: String,
         required: true
@@ -30,4 +39,4 @@ const eventTrackerchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('EventTracker', eventTrackerchema);
+export default model<EventTracker>('EventTracker', eventTrackerchema);

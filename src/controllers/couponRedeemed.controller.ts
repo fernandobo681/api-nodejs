@@ -1,7 +1,7 @@
 import CouponRedeemedSchema from '../models/couponRedeemed.model';
 
 export async function createCouponRedeemed (req, res) {
-  const couponRedeemed = await CouponRedeemedSchema(req.body);
+  const couponRedeemed = await new CouponRedeemedSchema(req.body);
   couponRedeemed
   .save()
   .then((couponRedeemed) => res.status(201).json({ success: true, message: 'Coupon created successfully', data: couponRedeemed }))

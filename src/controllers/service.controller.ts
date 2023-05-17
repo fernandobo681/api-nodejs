@@ -1,7 +1,7 @@
 import ServiceSchema from '../models/service.model';
 
 export async function createService (req, res) {
-  const service = await ServiceSchema(req.body);
+  const service = await new ServiceSchema(req.body);
   service
   .save()
   .then((service) => res.status(201).json({ success: true, message: 'Service created successfully', data: service }))

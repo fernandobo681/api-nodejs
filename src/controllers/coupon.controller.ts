@@ -1,7 +1,7 @@
 import CouponSchema from '../models/coupon.model';
 
 export async function createCoupon (req, res) {
-  const coupon = await CouponSchema(req.body);
+  const coupon = await new CouponSchema(req.body);
   coupon
   .save()
   .then((coupon) => res.status(201).json({ success: true, message: 'Coupon created successfully', data: coupon }))

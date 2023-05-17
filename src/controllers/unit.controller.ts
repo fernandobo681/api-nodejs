@@ -1,7 +1,7 @@
 import UnitSchema from '../models/unit.model';
 
 export async function createUnit (req, res) {
-  const unit = await UnitSchema(req.body);
+  const unit = await new UnitSchema(req.body);
   unit
   .save()
   .then((unit) => res.status(201).json({ success: true, message: 'Unit created successfully', data: unit }))

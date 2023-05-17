@@ -1,7 +1,7 @@
 import PaymentLogStripeSchema from '../models/paymentLogStripe.model';
 
 export async function createPaymentLogStripe (req, res) {
-  const paymentLogStripe = await PaymentLogStripeSchema(req.body);
+  const paymentLogStripe = await new PaymentLogStripeSchema(req.body);
   paymentLogStripe
   .save()
   .then((paymentLogStripe) => res.status(201).json({ success: true, message: 'PaymentLogStripe created successfully', data: paymentLogStripe }))
