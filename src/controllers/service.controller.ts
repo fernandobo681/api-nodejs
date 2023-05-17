@@ -1,6 +1,6 @@
-const ServiceSchema = require('../models/service.model');
+import ServiceSchema from '../models/service.model';
 
-async function createService (req, res) {
+export async function createService (req, res) {
   const service = await ServiceSchema(req.body);
   service
   .save()
@@ -8,14 +8,14 @@ async function createService (req, res) {
   .catch((err) => res.status(400).json({ success: false, message: 'Error to create service: ' + err.message }));
 }
 
-async function getAllServices(req, res) {
+export async function getAllServices(req, res) {
   await ServiceSchema
     .find()
     .then((services) =>  {
       if(services.length > 0) { 
         res.status(200).json({ success: true, message: 'Get all services successfully', data: services })
       } else {
-        res.status(404).json({ success: false, message: 'No services found: ' + err.message });
+        res.status(404).json({ success: false, message: 'No services found'});
       }
     }
     )
@@ -23,7 +23,7 @@ async function getAllServices(req, res) {
 }
 
 
-async function getServiceById(req, res) {
+export async function getServiceById(req, res) {
   const { id } = req.params;
   await ServiceSchema
     .findById(id)
@@ -34,7 +34,7 @@ async function getServiceById(req, res) {
     .catch((err) => res.status(404).json({ success: false, message: 'No service found:' + err.message }));
 }
 
-async function updateServiceById(req, res) {
+export async function updateServiceById(req, res) {
   const { id } = req.params;
   const { name, description, cost, discount_rate, duration, img } = req.body;
   await ServiceSchema
@@ -54,20 +54,12 @@ async function updateServiceById(req, res) {
     .catch((err) => res.status(400).json({ success: false, message: 'Error to update service: ' + err.message }));
 }
 
-async function deleteServiceById(req, res) {
+export async function deleteServiceById(req, res) {
   const { id } = req.params;
   await ServiceSchema
     .findOneAndDelete({ _id: id })
     .then((service) => {
-      service ? res.status(201).json({ success: true, message: 'Service deleted successfully', data: service }) : res.status(404).json({ success: false, message: 'No service found: ' + err.message });
+      service ? res.status(201).json({ success: true, message: 'Service deleted successfully', data: service }) : res.status(404).json({ success: false, message: 'No service found' });
     })
     .catch((err) => res.status(400).json({ success: false, message: 'Error to delete service: ' + err.message }));
 }
-
-module.exports = {
-    getAllServices,
-    createService,
-    getServiceById,
-    updateServiceById,
-    deleteServiceById
-};

@@ -1,9 +1,10 @@
-const CollaboratorSchema = require('../models/collaborator.model');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
+import CollaboratorSchema from '../models/collaborator.model';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import 'dotenv/config';
 
-async function loginCollaborator(req, res) {
+
+export async function loginCollaborator(req, res) {
   const body = req.body;
   const collaborator = await CollaboratorSchema.findOne({ email: body.email });
   if (collaborator) {
@@ -20,7 +21,7 @@ async function loginCollaborator(req, res) {
 }
 
 
-async function createCollaborator(req, res) {
+export async function createCollaborator(req, res) {
   const body = req.body;
   if (!(body.email && body.password)) {
     return res.status(400).send({ success: false, message: "Data not formatted properly" });
@@ -34,7 +35,7 @@ async function createCollaborator(req, res) {
     .catch((err) => res.status(400).json({ success: false, message: 'Error to create collaborators: ' + err.message }));
 }
 
-async function getAllCollaborators(req, res) {
+export async function getAllCollaborators(req, res) {
   await CollaboratorSchema
     .find()
     .then((collaborator) =>  {
@@ -42,14 +43,14 @@ async function getAllCollaborators(req, res) {
       if(collaborator.length > 0) { 
         res.status(200).json({ success: true, message: 'Get all collaborators successfully', data: collaborator })
       } else {
-        res.status(404).json({ success: false, message: 'No collaborators found: ' + err.message });
+        res.status(404).json({ success: false, message: 'No collaborators found'});
       }
     }
     )
     .catch((err) => res.status(404).json({ success: false, message: 'No collaborators found: ' + err.message }));
 }
 
-async function getCollaboratorById(req, res) {
+export async function getCollaboratorById(req, res) {
   const { id } = req.params;
   await CollaboratorSchema
     .findById(id)
@@ -60,7 +61,7 @@ async function getCollaboratorById(req, res) {
     .catch((err) => res.status(404).json({ success: false, message: 'No collaborator found:' + err.message }));
 }
 
-async function updateCollaboratorById(req, res) {
+export async function updateCollaboratorById(req, res) {
   const { id } = req.params;
   const { name, email, phone, branch, addresses, payment_methods, coordinates, unit_id, rol } = req.body;
   await CollaboratorSchema
@@ -80,21 +81,12 @@ async function updateCollaboratorById(req, res) {
     .catch((err) => res.status(400).json({ success: false, message: 'Error to update collaborators: ' + err.message }));
 }
 
-async function deleteCollaboratorById(req, res) {
+export async function deleteCollaboratorById(req, res) {
   const { id } = req.params;
   await CollaboratorSchema
     .findOneAndDelete({ _id: id })
     .then((collaborator) => {
-      collaborator ? res.status(201).json({ success: true, message: 'Collaborator deleted successfully', data: collaborator }) : res.status(404).json({ success: false, message: 'No collaborator found: ' + err.message });
+      collaborator ? res.status(201).json({ success: true, message: 'Collaborator deleted successfully', data: collaborator }) : res.status(404).json({ success: false, message: 'No collaborator found'});
     })
     .catch((err) => res.status(400).json({ success: false, message: 'Error to delete collaborators: ' + err.message }));
 }
-
-module.exports = {
-  createCollaborator,
-  getAllCollaborators,
-  getCollaboratorById,
-  updateCollaboratorById,
-  deleteCollaboratorById,
-  loginCollaborator
-};

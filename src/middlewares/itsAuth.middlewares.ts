@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
+import jwt from 'jsonwebtoken';
+import 'dotenv/config';
 
 async function itsAuth(req, res, next) {
     const accessToken = req.headers['authorization'];
@@ -18,7 +18,6 @@ async function itsAuth(req, res, next) {
         res.status(401).send('Access denied, you need a token.');
     }
 }
-
 
 module.exports = itsAuth;
 

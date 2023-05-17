@@ -1,6 +1,6 @@
-const ProductSchema = require('../models/product.model');
+import ProductSchema from '../models/product.model';
 
-async function createProduct (req, res) {
+export async function createProduct (req, res) {
   const product = await ProductSchema(req.body);
   product
   .save()
@@ -8,14 +8,14 @@ async function createProduct (req, res) {
   .catch((err) => res.status(400).json({ success: false, message: 'Error to create product: ' + err.message }));
 }
 
-async function getAllProducts(req, res) {
+export async function getAllProducts(req, res) {
   await ProductSchema
     .find()
     .then((products) =>  {
       if(products.length > 0) { 
         res.status(200).json({ success: true, message: 'Get all products successfully', data: products })
       } else {
-        res.status(404).json({ success: false, message: 'No products found: ' + err.message });
+        res.status(404).json({ success: false, message: 'No products found'});
       }
     }
     )
@@ -23,7 +23,7 @@ async function getAllProducts(req, res) {
 }
 
 
-async function getProductById(req, res) {
+export async function getProductById(req, res) {
   const { id } = req.params;
   await ProductSchema
     .findById(id)
@@ -34,7 +34,7 @@ async function getProductById(req, res) {
     .catch((err) => res.status(404).json({ success: false, message: 'No product found:' + err.message }));
 }
 
-async function updateProductById(req, res) {
+export async function updateProductById(req, res) {
   const { id } = req.params;
   const { name, description, points, expiration_date } = req.body;
   await ProductSchema
@@ -54,20 +54,12 @@ async function updateProductById(req, res) {
     .catch((err) => res.status(400).json({ success: false, message: 'Error to update product: ' + err.message }));
 }
 
-async function deleteProductById(req, res) {
+export async function deleteProductById(req, res) {
   const { id } = req.params;
   await ProductSchema
     .findOneAndDelete({ _id: id })
     .then((product) => {
-      product ? res.status(201).json({ success: true, message: 'Product deleted successfully', data: product }) : res.status(404).json({ success: false, message: 'No product found: ' + err.message });
+      product ? res.status(201).json({ success: true, message: 'Product deleted successfully', data: product }) : res.status(404).json({ success: false, message: 'No product found' });
     })
     .catch((err) => res.status(400).json({ success: false, message: 'Error to delete product: ' + err.message }));
 }
-
-module.exports = {
-    getAllProducts,
-    createProduct,
-    getProductById,
-    updateProductById,
-    deleteProductById
-};

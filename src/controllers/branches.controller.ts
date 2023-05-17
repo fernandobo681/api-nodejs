@@ -1,6 +1,6 @@
-const BranchesSchema = require('../models/branches.model');
+import BranchesSchema from '../models/branches.model';
 
-async function createBranches (req, res) {
+export async function createBranches (req, res) {
   const branches = await BranchesSchema(req.body);
   branches
   .save()
@@ -8,22 +8,21 @@ async function createBranches (req, res) {
   .catch((err) => res.status(400).json({ success: false, message: 'Error to create branches: ' + err.message }));
 }
 
-async function getAllBranchess(req, res) {
+export async function getAllBranchess(req, res) {
   await BranchesSchema
     .find()
     .then((branchess) =>  {
       if(branchess.length > 0) { 
         res.status(200).json({ success: true, message: 'Get all branchess successfully', data: branchess })
       } else {
-        res.status(404).json({ success: false, message: 'No branchess found: ' + err.message });
+        res.status(404).json({ success: false, message: 'No branchess found' });
       }
     }
     )
     .catch((err) => res.status(404).json({ success: false, message: 'No branchess found: ' + err.message }));
 }
 
-
-async function getBranchesById(req, res) {
+export async function getBranchesById(req, res) {
   const { id } = req.params;
   await BranchesSchema
     .findById(id)
@@ -34,7 +33,7 @@ async function getBranchesById(req, res) {
     .catch((err) => res.status(404).json({ success: false, message: 'No branches found:' + err.message }));
 }
 
-async function updateBranchesById(req, res) {
+export async function updateBranchesById(req, res) {
   const { id } = req.params;
   const { name, email, phone, addresses, payment_methods, coordinates, coupons } = req.body;
   await BranchesSchema
@@ -54,20 +53,12 @@ async function updateBranchesById(req, res) {
     .catch((err) => res.status(400).json({ success: false, message: 'Error to update branches: ' + err.message }));
 }
 
-async function deleteBranchesById(req, res) {
+export async function deleteBranchesById(req, res) {
   const { id } = req.params;
   await BranchesSchema
     .findOneAndDelete({ _id: id })
     .then((branches) => {
-      branches ? res.status(201).json({ success: true, message: 'Branches deleted successfully', data: branches }) : res.status(404).json({ success: false, message: 'No branches found: ' + err.message });
+      branches ? res.status(201).json({ success: true, message: 'Branches deleted successfully', data: branches }) : res.status(404).json({ success: false, message: 'No branches found'});
     })
     .catch((err) => res.status(400).json({ success: false, message: 'Error to delete branches: ' + err.message }));
 }
-
-module.exports = {
-    getAllBranchess,
-    createBranches,
-    getBranchesById,
-    updateBranchesById,
-    deleteBranchesById
-};

@@ -1,5 +1,16 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+import { Schema, model } from 'mongoose';
+
+export interface Banner {
+  name: string;
+  description: string;
+  start_date: Date;
+  end_date: Date;
+  img_url: string;
+  offer_reference: string;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date;
+}
 
 const bannerSchema = new Schema({
   // id: Schema.Types.ObjectId,
@@ -41,4 +52,4 @@ const bannerSchema = new Schema({
   }
 });
 
-module.exports = mongoose.model('Banner', bannerSchema);
+export default model<Banner>('Banner', bannerSchema);

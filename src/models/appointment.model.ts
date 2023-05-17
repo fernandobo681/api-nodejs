@@ -1,7 +1,22 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+import { Schema, model }  from 'mongoose';
 
-const appointmentSchema = new Schema({
+export interface Appointment {
+    customer: string;
+    status: string;
+    required_services: any;
+    required_products: any;
+    tracking_history_status: any;
+    coordinates: any;
+    qualification: any;
+    unid_id: string;
+    payment_type: string;
+    cost: number;
+    created_at: Date;
+    updated_at: Date;
+    deleted_at: Date;
+}
+
+const appointmentSchema = new Schema<Appointment>({
     customer: [{
         id: String,
         name: String
@@ -63,4 +78,4 @@ const appointmentSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('Appointment', appointmentSchema);
+export default model<Appointment>('Appointment', appointmentSchema);

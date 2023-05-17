@@ -1,7 +1,7 @@
-const CustomerSchema = require('../models/customer.model');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
+import CustomerSchema from '../models/customer.model';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import 'dotenv/config';
 
 // async function createCustomer (req, res) {
 //   const customer = await CustomerSchema(req.body);
@@ -12,7 +12,7 @@ require('dotenv').config();
 // }
 
 
-async function loginCustomer(req, res) {
+export async function loginCustomer(req, res) {
   const body = req.body;
   const customer = await CustomerSchema.findOne({ email: body.email });
   if (customer) {
@@ -28,8 +28,7 @@ async function loginCustomer(req, res) {
   }
 }
 
-
-async function createCustomer(req, res) {
+export async function createCustomer(req, res) {
   const body = req.body;
   if (!(body.email && body.password)) {
     return res.status(400).send({ success: false, message: "Data not formatted properly" });
@@ -43,7 +42,7 @@ async function createCustomer(req, res) {
     .catch((err) => res.status(400).json({ success: false, message: 'Error to create customers: ' + err.message }));
 }
 
-async function getAllCustomers(req, res) {
+export async function getAllCustomers(req, res) {
   await CustomerSchema
     .find()
     .then((customer) =>  {
@@ -51,14 +50,14 @@ async function getAllCustomers(req, res) {
       if(customer.length > 0) { 
         res.status(200).json({ success: true, message: 'Get all customers successfully', data: customer })
       } else {
-        res.status(404).json({ success: false, message: 'No customers found: ' + err.message });
+        res.status(404).json({ success: false, message: 'No customers found' });
       }
     }
     )
     .catch((err) => res.status(404).json({ success: false, message: 'No customers found: ' + err.message }));
 }
 
-async function getCustomerById(req, res) {
+export async function getCustomerById(req, res) {
   const { id } = req.params;
   await CustomerSchema
     .findById(id)
@@ -69,7 +68,7 @@ async function getCustomerById(req, res) {
     .catch((err) => res.status(404).json({ success: false, message: 'No customer found:' + err.message }));
 }
 
-async function updateCustomerById(req, res) {
+export async function updateCustomerById(req, res) {
   const { id } = req.params;
   const { name, email, phone, reward_points, addresses, payment_methods, coordinates, vehicles } = req.body;
   await CustomerSchema
@@ -89,21 +88,12 @@ async function updateCustomerById(req, res) {
     .catch((err) => res.status(400).json({ success: false, message: 'Error to update customers: ' + err.message }));
 }
 
-async function deleteCustomerById(req, res) {
+export async function deleteCustomerById(req, res) {
   const { id } = req.params;
   await CustomerSchema
     .findOneAndDelete({ _id: id })
     .then((customer) => {
-      customer ? res.status(201).json({ success: true, message: 'Customer deleted successfully', data: customer }) : res.status(404).json({ success: false, message: 'No customer found: ' + err.message });
+      customer ? res.status(201).json({ success: true, message: 'Customer deleted successfully', data: customer }) : res.status(404).json({ success: false, message: 'No customer found'});
     })
     .catch((err) => res.status(400).json({ success: false, message: 'Error to delete customers: ' + err.message }));
 }
-
-module.exports = {
-  createCustomer,
-  getAllCustomers,
-  getCustomerById,
-  updateCustomerById,
-  deleteCustomerById,
-  loginCustomer
-};

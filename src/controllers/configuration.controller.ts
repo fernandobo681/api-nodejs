@@ -1,6 +1,6 @@
-const ConfigurationSchema = require('../models/configuration.model');
+import ConfigurationSchema from '../models/configuration.model';
 
-async function createConfiguration (req, res) {
+export async function createConfiguration (req, res) {
   const configuration = await ConfigurationSchema(req.body);
   configuration
   .save()
@@ -8,22 +8,21 @@ async function createConfiguration (req, res) {
   .catch((err) => res.status(400).json({ success: false, message: 'Error to create configuration: ' + err.message }));
 }
 
-async function getAllConfigurations(req, res) {
+export async function getAllConfigurations(req, res) {
   await ConfigurationSchema
     .find()
     .then((configurations) =>  {
       if(configurations.length > 0) { 
         res.status(200).json({ success: true, message: 'Get all configurations successfully', data: configurations })
       } else {
-        res.status(404).json({ success: false, message: 'No configurations found: ' + err.message });
+        res.status(404).json({ success: false, message: 'No configurations found'});
       }
     }
     )
     .catch((err) => res.status(404).json({ success: false, message: 'No configurations found: ' + err.message }));
 }
 
-
-async function getConfigurationById(req, res) {
+export async function getConfigurationById(req, res) {
   const { id } = req.params;
   await ConfigurationSchema
     .findById(id)
@@ -34,7 +33,7 @@ async function getConfigurationById(req, res) {
     .catch((err) => res.status(404).json({ success: false, message: 'No configuration found:' + err.message }));
 }
 
-async function updateConfigurationById(req, res) {
+export async function updateConfigurationById(req, res) {
   const { id } = req.params;
   const { company_name, rfc, phone, email, schedule } = req.body;
   await ConfigurationSchema
@@ -54,20 +53,12 @@ async function updateConfigurationById(req, res) {
     .catch((err) => res.status(400).json({ success: false, message: 'Error to update configuration: ' + err.message }));
 }
 
-async function deleteConfigurationById(req, res) {
+export async function deleteConfigurationById(req, res) {
   const { id } = req.params;
   await ConfigurationSchema
     .findOneAndDelete({ _id: id })
     .then((configuration) => {
-      configuration ? res.status(201).json({ success: true, message: 'Configuration deleted successfully', data: configuration }) : res.status(404).json({ success: false, message: 'No configuration found: ' + err.message });
+      configuration ? res.status(201).json({ success: true, message: 'Configuration deleted successfully', data: configuration }) : res.status(404).json({ success: false, message: 'No configuration found' });
     })
     .catch((err) => res.status(400).json({ success: false, message: 'Error to delete configuration: ' + err.message }));
 }
-
-module.exports = {
-    getAllConfigurations,
-    createConfiguration,
-    getConfigurationById,
-    updateConfigurationById,
-    deleteConfigurationById
-};

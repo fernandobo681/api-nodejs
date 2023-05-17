@@ -1,6 +1,6 @@
-const PaymentLogStripeSchema = require('../models/paymentLogStripe.model');
+import PaymentLogStripeSchema from '../models/paymentLogStripe.model';
 
-async function createPaymentLogStripe (req, res) {
+export async function createPaymentLogStripe (req, res) {
   const paymentLogStripe = await PaymentLogStripeSchema(req.body);
   paymentLogStripe
   .save()
@@ -8,14 +8,14 @@ async function createPaymentLogStripe (req, res) {
   .catch((err) => res.status(400).json({ success: false, message: 'Error to create paymentLogStripe: ' + err.message }));
 }
 
-async function getAllPaymentLogStripes(req, res) {
+export async function getAllPaymentLogStripes(req, res) {
   await PaymentLogStripeSchema
     .find()
     .then((paymentLogStripes) =>  {
       if(paymentLogStripes.length > 0) { 
         res.status(200).json({ success: true, message: 'Get all paymentLogStripes successfully', data: paymentLogStripes })
       } else {
-        res.status(404).json({ success: false, message: 'No paymentLogStripes found: ' + err.message });
+        res.status(404).json({ success: false, message: 'No paymentLogStripes found'});
       }
     }
     )
@@ -23,7 +23,7 @@ async function getAllPaymentLogStripes(req, res) {
 }
 
 
-async function getPaymentLogStripeById(req, res) {
+export async function getPaymentLogStripeById(req, res) {
   const { id } = req.params;
   await PaymentLogStripeSchema
     .findById(id)
@@ -34,7 +34,7 @@ async function getPaymentLogStripeById(req, res) {
     .catch((err) => res.status(404).json({ success: false, message: 'No paymentLogStripe found:' + err.message }));
 }
 
-async function updatePaymentLogStripeById(req, res) {
+export async function updatePaymentLogStripeById(req, res) {
   const { id } = req.params;
   const { amount, currency, sale_id, customer } = req.body;
   await PaymentLogStripeSchema
@@ -54,20 +54,12 @@ async function updatePaymentLogStripeById(req, res) {
     .catch((err) => res.status(400).json({ success: false, message: 'Error to update paymentLogStripe: ' + err.message }));
 }
 
-async function deletePaymentLogStripeById(req, res) {
+export async function deletePaymentLogStripeById(req, res) {
   const { id } = req.params;
   await PaymentLogStripeSchema
     .findOneAndDelete({ _id: id })
     .then((paymentLogStripe) => {
-      paymentLogStripe ? res.status(201).json({ success: true, message: 'PaymentLogStripe deleted successfully', data: paymentLogStripe }) : res.status(404).json({ success: false, message: 'No paymentLogStripe found: ' + err.message });
+      paymentLogStripe ? res.status(201).json({ success: true, message: 'PaymentLogStripe deleted successfully', data: paymentLogStripe }) : res.status(404).json({ success: false, message: 'No paymentLogStripe found' });
     })
     .catch((err) => res.status(400).json({ success: false, message: 'Error to delete paymentLogStripe: ' + err.message }));
 }
-
-module.exports = {
-    getAllPaymentLogStripes,
-    createPaymentLogStripe,
-    getPaymentLogStripeById,
-    updatePaymentLogStripeById,
-    deletePaymentLogStripeById
-};
