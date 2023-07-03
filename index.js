@@ -5,6 +5,9 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const port = process.env.PORT || 3001;
 const connectToDB = require('./src/config/db');
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
+
 
 // Import Routes
 const customerRoute = require('./src/routes/customer.route');
@@ -33,6 +36,28 @@ app.use(cors());
 // MongoDB connection and configuration
 connectToDB();
 
+// Configuración de Swagger
+const options = {
+  swaggerDefinition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Mi API',
+      version: '1.0.0',
+      description: 'Documentación de mi API',
+    },
+    servers: [
+      {
+        url: 'http://localhost:3001',
+      },
+    ],
+  },
+  apis: ['./routes/*.js'], // Ruta a tus archivos de rutas
+};
+
+const specs = swaggerJsdoc(options);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+
 // use routes
 app.use('/api/customers', customerRoute);
 app.use('/api/banners', bannernRoute);
@@ -57,5 +82,7 @@ app.set('views', './src/views');
 app.route("/").get((req, res) => {
   res.render("index");
 });
+
+
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
