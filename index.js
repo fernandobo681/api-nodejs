@@ -6,8 +6,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const port = process.env.PORT || 3001;
 const connectToDB = require('./src/config/db');
-// const swaggerUi = require('swagger-ui-express');
-// swaggerDocument = require('./swagger.json');
+const compression = require('compression');
 
 const swaggerUi = require('swagger-ui-express')
 const swaggerFile = require('./swagger_output.json')
@@ -39,12 +38,10 @@ app.use(cors());
 connectToDB();
 
 // Configuration with swagger for the documentation
-// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-
-
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
+// Compression responses
+app.use(compression());
 
 // Use routes
 app.use('/api/customers', customerRoute);
