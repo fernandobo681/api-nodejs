@@ -22,7 +22,6 @@ async function getAllAppointments(req, res) {
     .catch((err) => res.status(404).json({ success: false, message: 'No appointments found: ' + err.message }));
 }
 
-
 async function getAppointmentById(req, res) {
   const { id } = req.params;
   await AppointmentSchema
