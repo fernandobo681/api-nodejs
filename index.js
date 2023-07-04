@@ -1,3 +1,4 @@
+// Import libraries
 require('dotenv').config();
 const express = require('express');
 const app = express();
@@ -5,9 +6,11 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const port = process.env.PORT || 3001;
 const connectToDB = require('./src/config/db');
-const swaggerUi = require('swagger-ui-express');
-const swaggerJsdoc = require('swagger-jsdoc');
+// const swaggerUi = require('swagger-ui-express');
+// swaggerDocument = require('./swagger.json');
 
+const swaggerUi = require('swagger-ui-express')
+const swaggerFile = require('./swagger_output.json')
 
 // Import Routes
 const customerRoute = require('./src/routes/customer.route');
@@ -27,38 +30,23 @@ const branchesRoute = require('./src/routes/branches.route');
 const collaboratorRoute = require('./src/routes/collaborator.route');
 const appointmentsRoute = require('./src/routes/appointment.route');
 
-
 // Middlewares
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors()); 
+app.use(cors());
 
 // MongoDB connection and configuration
 connectToDB();
 
-// Configuración de Swagger
-const options = {
-  swaggerDefinition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'Mi API',
-      version: '1.0.0',
-      description: 'Documentación de mi API',
-    },
-    servers: [
-      {
-        url: 'http://localhost:3001',
-      },
-    ],
-  },
-  apis: ['./routes/*.js'], // Ruta a tus archivos de rutas
-};
+// Configuration with swagger for the documentation
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-const specs = swaggerJsdoc(options);
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
-// use routes
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+
+
+// Use routes
 app.use('/api/customers', customerRoute);
 app.use('/api/banners', bannernRoute);
 app.use('/api/rewards', rewardRoute);
@@ -76,13 +64,11 @@ app.use('/api/units', unitRoute);
 app.use('/api/collaborators', collaboratorRoute);
 app.use('/api/appointments', appointmentsRoute);
 
-// use views
+// Use views
 app.set("view engine", "pug");
 app.set('views', './src/views');
 app.route("/").get((req, res) => {
   res.render("index");
 });
-
-
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
